@@ -1,10 +1,11 @@
 #!/usr/bin/python3
 # Author: https;//github.com/mohabaks
-# Description: Quick script to brute-force steghide passphrase
+# Description: A script to brute-force steghide passphrase.
 # Dependecies: steghide
 
 import argparse
 import subprocess
+import os
 
 from threading import Thread
 
@@ -20,18 +21,18 @@ def steghideCracker(password, stegofile):
         password: The passphrase
         stegofile: Selected stego file
 
-    Returns
-    -------
-        password: Return password used to crack the file
-
     """
     steghide = ["steghide", "extract", "-sf", stegofile, "-p", password]
 
-    status = subprocess.run(args=steghide)
+    FNULL = open(os.devnull, 'w')
+
+    status = subprocess.run(args=steghide, stdout=FNULL,
+                            stderr=subprocess.STDOUT)
+
     if status.returncode != 1:
-        print("\033[32m Successfully brute-foce \033[35m{0}\033[0m passphrase:\
-              {1}\033[36m{1}\033[0m".format(stegofile, password))
-        exit(0)
+        print("\033[32mSuccessfully brute-foce \033[35m{0}\033[32m passphrase:\
+              \033[36m{1}\033[0m".format(stegofile, password))
+        os._exit(0)
 
 
 def main():
@@ -53,6 +54,7 @@ def main():
     for password in dict_file:
         t = Thread(target=steghideCracker, args=(password, stegofile))
         t.start()
+
 
 
 if __name__ == "__main__":
