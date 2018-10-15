@@ -25,11 +25,13 @@ def steghideCracker(password, stegofile):
         password: Return password used to crack the file
 
     """
+    steghide = ["steghide", "extract", "-sf", stegofile, "-p", password]
 
-    status, value = subprocess.getstatusoutput('steghide -q -sf {0} -p {1}'
-                                               .format(stegofile, password))
-    if status != 1:
-        print(password)
+    status = subprocess.run(args=steghide)
+    if status.returncode != 1:
+        print("\033[32m Successfully brute-foce \033[35m{0}\033[0m passphrase:\
+              {1}\033[36m{1}\033[0m".format(stegofile, password))
+        exit(0)
 
 
 def main():
