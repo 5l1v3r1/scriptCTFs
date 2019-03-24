@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-# Author: https;//github.com/mohabaks
+# Author: https;//github.com/cOb4l7
 # Description: A script to brute-force steghide passphrase.
 # Dependecies: steghide
 
